@@ -1,5 +1,3 @@
-// Adjascency List representation in C
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -7,8 +5,8 @@ struct node {
   int vertex;
   struct node* next;
 };
-struct node* createNode(int);
 
+struct node* createNode(int);
 struct Graph {
   int numVertices;
   struct node** adjLists;
@@ -26,13 +24,10 @@ struct node* createNode(int v) {
 struct Graph* createAGraph(int vertices) {
   struct Graph* graph = malloc(sizeof(struct Graph));
   graph->numVertices = vertices;
-
   graph->adjLists = malloc(vertices * sizeof(struct node*));
-
   int i;
   for (i = 0; i < vertices; i++)
     graph->adjLists[i] = NULL;
-
   return graph;
 }
 
@@ -42,13 +37,9 @@ void addEdge(struct Graph* graph, int s, int d) {
   struct node* newNode = createNode(d);
   newNode->next = graph->adjLists[s];
   graph->adjLists[s] = newNode;
-
-  // Add edge from d to s
-
-  newNode = createNode(s);
-  newNode->next = graph->adjLists[d];
-  graph->adjLists[d] = newNode;
 }
+
+
 
 // Print the graph
 void printGraph(struct Graph* graph) {
@@ -64,14 +55,28 @@ void printGraph(struct Graph* graph) {
   }
 }
 
+void printEdges(struct Graph* graph){
+   for(int i=0 ; graph->numVertices > i;i++){
+    struct node* temp = graph->adjLists[i];
+    printf("%d", i); 
+    while(temp){
+      printf("-> %d" , temp->vertex);
+      temp = temp->next;
+    }
+      printf(" \n" );
+  }
+}
+
+
 int main() {
   struct Graph* graph = createAGraph(4);
   addEdge(graph, 0, 1);
   addEdge(graph, 0, 2);
   addEdge(graph, 0, 3);
+  addEdge(graph, 1, 3);
   addEdge(graph, 1, 2);
-
-  printGraph(graph);
+  // printGraph(graph);
+  printEdges(graph);
 
   return 0;
 }
